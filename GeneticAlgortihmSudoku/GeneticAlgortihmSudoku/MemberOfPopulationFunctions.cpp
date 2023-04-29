@@ -14,6 +14,17 @@ MemberOfPopulation::MemberOfPopulation() : board(ROWS, std::vector<int>(COLS)) {
     generate_solution();
     calculate_rank();
 }
+MemberOfPopulation :: MemberOfPopulation(MemberOfPopulation& parent_1, MemberOfPopulation& parent_2) : board(ROWS, std::vector<int>(COLS)) {
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            board[i][j] = 0;
+        }
+    }
+    initialize_board_values();
+    find_empty_fields();
+    crossover(parent_1, parent_2);
+    calculate_rank();
+}
 
 MemberOfPopulation& MemberOfPopulation :: operator=(const MemberOfPopulation& other) {
     ROWS = other.ROWS;
@@ -26,29 +37,30 @@ MemberOfPopulation& MemberOfPopulation :: operator=(const MemberOfPopulation& ot
 }
 
 void MemberOfPopulation::initialize_board_values() { // Do poprawy - teraz na czas testowania samego algorytmu na sztywno wpisane wartosci
-    board[0][3] = 4;
-    board[1][2] = 8;
-    board[1][3] = 2;
-    board[1][7] = 5;
-    board[2][1] = 2;
-    board[2][3] = 9;
-    board[2][8] = 3;
-    board[3][1] = 8;
-    board[3][6] = 3;
-    board[3][7] = 9;
-    board[4][2] = 9;
-    board[4][7] = 6;
-    board[4][8] = 4;
-    board[5][1] = 5;
-    board[6][0] = 4;
-    board[6][2] = 7;
-    board[6][5] = 5;
-    board[6][6] = 1;
-    board[6][8] = 9;
+    board[0][0] = 7;
+    board[0][2] = 3;
+    board[0][4] = 8;
+    board[0][7] = 5;
+    board[1][6] = 2;
+    board[2][4] = 9;
+    board[2][7] = 1;
+    board[2][8] = 6;
+    board[3][1] = 9;
+    board[3][3] = 5;
+    board[4][0] = 1;
+    board[4][4] = 4;
+    board[4][5] = 7;
+    board[6][0] = 5;
+    board[6][1] = 7;
+    board[6][5] = 1;
+    board[6][7] = 2;
     board[7][0] = 6;
-    board[7][4] = 3;
-    board[7][6] = 5;
-    board[8][8] = 2;
+    board[7][2] = 2;
+    board[7][6] = 9;
+    board[7][8] = 1;
+    board[8][2] = 9;
+    board[8][4] = 7;
+    board[8][5] = 4;
 }
 void MemberOfPopulation::find_empty_fields() {
     for (int i = 0; i < ROWS; i++) {
@@ -212,6 +224,120 @@ void MemberOfPopulation::generate_solution() { // Try to complete board until th
 void MemberOfPopulation::calculate_rank() { // If board is completed rank 100 if there are missing fields rank is equal to 100 - number of missing pieaces
     rank = (no_more_moves.size() == 0) ? 100 : 100 - no_more_moves.size();
 }
+bool MemberOfPopulation::check_if_value_possible(int field, int val) {
+    int row = (field - 1) / 9;
+    int col = (field - 1) % 9;
+    for (int i = 0; i < COLS; i++) { // Search row
+        if (board[row][i] == val) {
+            return false;
+        }
+    }
+    for (int i = 0; i < ROWS; i++) { // Search column
+        if (board[i][col] == val) {
+            return false;
+        }
+    }
+    // Search square
+    if (row >= 0 and row <= 2) {
+        if (col >= 0 and col <= 2) {
+            for (int i = 0; i <= 2; i++) {
+                for (int j = 0; j <= 2; j++) {
+                    if (board[i][j] == val) {
+                        return false;
+                    }
+                }
+            }
+        }
+        if (col >= 3 and col <= 5) {
+            for (int i = 0; i <= 2; i++) {
+                for (int j = 3; j <= 5; j++) {
+                    if (board[i][j] == val) {
+                        return false;
+                    }
+                }
+            }
+        }
+        if (col >= 6 and col <= 8) {
+            for (int i = 0; i <= 2; i++) {
+                for (int j = 6; j <= 8; j++) {
+                    if (board[i][j] == val) {
+                        return false;
+                    }
+                }
+            }
+        }
+    }
+    else if (row >= 3 and row <= 5) {
+        if (col >= 0 and col <= 2) {
+            for (int i = 3; i <= 5; i++) {
+                for (int j = 0; j <= 2; j++) {
+                    if (board[i][j] == val) {
+                        return false;
+                    }
+                }
+            }
+        }
+        if (col >= 3 and col <= 5) {
+            for (int i = 3; i <= 5; i++) {
+                for (int j = 3; j <= 5; j++) {
+                    if (board[i][j] == val) {
+                        return false;
+                    }
+                }
+            }
+        }
+        if (col >= 6 and col <= 8) {
+            for (int i = 3; i <= 5; i++) {
+                for (int j = 6; j <= 8; j++) {
+                    if (board[i][j] == val) {
+                        return false;
+                    }
+                }
+            }
+        }
+    }
+    else {
+        if (col >= 0 and col <= 2) {
+            for (int i = 6; i <= 8; i++) {
+                for (int j = 0; j <= 2; j++) {
+                    if (board[i][j] == val) {
+                        return false;
+                    }
+                }
+            }
+        }
+        if (col >= 3 and col <= 5) {
+            for (int i = 6; i <= 8; i++) {
+                for (int j = 3; j <= 5; j++) {
+                    if (board[i][j] == val) {
+                        return false;
+                    }
+                }
+            }
+        }
+        if (col >= 6 and col <= 8) {
+            for (int i = 6; i <= 8; i++) {
+                for (int j = 6; j <= 8; j++) {
+                    if (board[i][j] == val) {
+                        return false;
+                    }
+                }
+            }
+        }
+    }
+    return true;
+}
+int MemberOfPopulation :: read_field_value(int field) {
+    int row = (field - 1) / 9;
+    int col = (field - 1) % 9;
+    return board[row][col];
+}
+bool MemberOfPopulation::complete_solution_found(MemberOfPopulation& member) {
+    if (member.no_more_moves.size() == 0) {
+        return true;
+    }
+    return false;
+}
 void MemberOfPopulation::show_board() {
     for (int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLS; j++) {
@@ -231,7 +357,6 @@ void MemberOfPopulation::show_board() {
         }
     }
 }
-
 void MemberOfPopulation::show_rank() {
     cout << rank;
 }

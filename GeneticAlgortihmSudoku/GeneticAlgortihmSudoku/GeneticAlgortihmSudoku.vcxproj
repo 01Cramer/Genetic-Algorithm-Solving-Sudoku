@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="GeneticAlgortihmSudoku.cpp" />
     <ClCompile Include="MemberOfPopulationFunctions.cpp" />
+	  <ClCompile Include="GeneticFunctions.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MemberOfPopulation.h" />
