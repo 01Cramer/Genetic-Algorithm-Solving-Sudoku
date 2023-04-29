@@ -1,0 +1,15 @@
+﻿  GeneticAlgortihmSudoku.cpp
+  MemberOfPopulationFunctions.cpp
+C:\Users\adria\source\repos\GeneticAlgortihmSudoku\GeneticAlgortihmSudoku\MemberOfPopulationFunctions.cpp(65,72): warning C4267: "argument": konwersja z "size_t" do "_Ty", możliwa utrata danych
+          with
+          [
+              _Ty=int
+          ]
+C:\Users\adria\source\repos\GeneticAlgortihmSudoku\GeneticAlgortihmSudoku\MemberOfPopulationFunctions.cpp(200,76): warning C4267: "argument": konwersja z "size_t" do "_Ty", możliwa utrata danych
+          with
+          [
+              _Ty=int
+          ]
+C:\Users\adria\source\repos\GeneticAlgortihmSudoku\GeneticAlgortihmSudoku\MemberOfPopulationFunctions.cpp(213,74): warning C4267: "=": konwersja z "size_t" do "int", możliwa utrata danych
+  Generowanie kodu...
+  GeneticAlgortihmSudoku.vcxproj -> C:\Users\adria\source\repos\GeneticAlgortihmSudoku\x64\Debug\GeneticAlgortihmSudoku.exe
